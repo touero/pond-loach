@@ -1,0 +1,4 @@
+pyecharts==1.9.1
+pywebio==1.5.2
+requests==2.26.0
+selenium==4.8.3
