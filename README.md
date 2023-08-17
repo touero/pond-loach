@@ -8,8 +8,8 @@
 
 &emsp;&emsp;爬取财富网下的2021年世界五百强并作图分析, 对不同经济实力的对比
 
-![img.png](img.png)
-![img_1.png](img_1.png)
+![bar](https://github.com/weiensong/pond-loach/blob/master/images/bar.png)
+![pie](https://github.com/weiensong/pond-loach/blob/master/images/pie.png)
 
 ## 安装
 
