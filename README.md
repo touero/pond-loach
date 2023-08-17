@@ -67,5 +67,5 @@ $ python3 ./analyze.py
 
 ## 使用许可
 
-[MIT](LICENSE) © weiensong
+[MIT](https://github.com/weiensong/pond-loach) © weiensong
 
