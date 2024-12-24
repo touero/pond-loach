@@ -1,7 +1,10 @@
+import select
 import time
 import requests
 import csv
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
 
 # 目标网址，构造头部信息
 url = 'https://www.fortunechina.com/fortune500/c/2021-08/02/content_394571.htm'
@@ -20,28 +23,28 @@ def crawler():
     if response.status_code != 200:
         print('access failed')
         return
-    chrome = webdriver.Chrome(r'chromedriver.exe')
+    chrome = webdriver.Chrome(r'./chromedriver')
+    chrome.maximize_window()
     chrome.get(url)
     script = 'Object.defineProperty(navigator,"webdriver",{get:()=>undefined,});'
     chrome.execute_script(script)
     time.sleep(2)
-    for i in range(1, 11):
-        for j in range(1, 51):
-            # selenium通过xpath定位获取数据
-            rank = chrome.find_element_by_xpath('//*[@id="table1"]/tbody/tr[{}]/td[1]'.format(j)).text
-            company = chrome.find_element_by_xpath('//*[@id="table1"]/tbody/tr[{}]/td[2]/a'.format(j)).text
-            income = chrome.find_element_by_xpath('//*[@id="table1"]/tbody/tr[{}]/td[3]'.format(j)).text
-            profit = chrome.find_element_by_xpath('//*[@id="table1"]/tbody/tr[{}]/td[4]'.format(j)).text
-            nation = chrome.find_element_by_xpath('//*[@id="table1"]/tbody/tr[{}]/td[5]'.format(j)).text
-            # 追加写入csv
-            with open(r'Fortune500.csv', 'a+', encoding='utf-8') as f:
-                row = [rank, company, income, profit, nation]
-                writer = csv.writer(f)
-                writer.writerow(row)
-                print(row)
-        nextPage = chrome.find_element_by_xpath('//*[@id="table1_next"]')
-        nextPage.click()
+    select_element = chrome.find_element(By.XPATH, '//select[@name="table1_length"]')
+    Select(select_element).select_by_value('-1')
+    time.sleep(1)
+    rows = chrome.find_elements(By.XPATH, '//tbody/tr[@role="row"]')
+    for row in rows:
+        rank = row.find_element(By.XPATH, './td[1]').text
+        company = row.find_element(By.XPATH, f'./td[2]/a').text
+        income = row.find_element(By.XPATH, './td[3]').text
+        profit = row.find_element(By.XPATH, './td[4]').text
+        nation = row.find_element(By.XPATH, './td[5]').text
 
+        with open(r'Fortune500.csv', 'a+', encoding='utf-8') as f:
+            row = [rank, company, income, profit, nation]
+            writer = csv.writer(f)
+            writer.writerow(row)
+            print(row)
 
 if __name__ == '__main__':
     crawler()
