@@ -1,11 +1,10 @@
-import os
 import csv
 from pyecharts.charts import Bar, Pie, Page
 from pyecharts import options as opts
 
 
 def load_fortune_data():
-    nationDict = {}
+    nation_dict = {}
     company = []
     income = []
     profit = []
@@ -17,10 +16,10 @@ def load_fortune_data():
         for row in csv.reader(jd):
             try:
                 # 获取国家数据
-                if row[4] not in nationDict:
-                    nationDict[row[4]] = 1
+                if row[4] not in nation_dict:
+                    nation_dict[row[4]] = 1
                 else:
-                    nationDict[row[4]] += 1
+                    nation_dict[row[4]] += 1
 
                 # 获取公司收入和利润数据
                 if float(row[3]) > 0:
@@ -28,33 +27,32 @@ def load_fortune_data():
                     income.append(float(row[2]))
                     profit.append(float(row[3]))
                     proportion.append(float(row[3]) / float(row[2]) * 100)
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
 
-    return nationDict, company, income, profit, proportion
+    return nation_dict, company, income, profit, proportion
 
 
-# 获取数据
-nationDict, company, income, profit, proportion = load_fortune_data()
+nation_dict, company, income, profit, proportion = load_fortune_data()
 
 
 # 创建各个图表
 def create_proportion_bar():
-    nationValueList = [nationDict[key] for key in nationDict]
-    nationKeyList = list(nationDict.keys())
+    nation_value_list = [nation_dict[key] for key in nation_dict]
+    nation_key_list = list(nation_dict.keys())
     bar = Bar()
-    bar.add_xaxis(nationKeyList)
-    bar.add_yaxis("世界500强数量", nationValueList)
+    bar.add_xaxis(nation_key_list)
+    bar.add_yaxis("世界500强数量", nation_value_list)
     bar.set_global_opts(title_opts=opts.TitleOpts(title="各个国家拥有世界500强企业"),
                         xaxis_opts=opts.AxisOpts(name_rotate=60, axislabel_opts={"rotate": 45}))
     return bar
 
 
 def create_proportion_pie():
-    nationValueList = [nationDict[key] for key in nationDict]
-    nationKeyList = list(nationDict.keys())
+    nation_value_list = [nation_dict[key] for key in nation_dict]
+    nation_key_list = list(nation_dict.keys())
     pie = Pie()
-    pie.add('数量', [list(z) for z in zip(nationKeyList, nationValueList)], radius='45%', center=["50%", "65%"])
+    pie.add('数量', [list(z) for z in zip(nation_key_list, nation_value_list)], radius='45%', center=["50%", "65%"])
     return pie
 
 
