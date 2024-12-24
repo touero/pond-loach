@@ -18,17 +18,24 @@
 ```shell
 $ git clone https://github.com/weiensong/Fortune500.git
 ```
-
+下载你本地[chrome](chrome://version/)浏览器对应版本的[chromedriver](https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json)
 
 ## 运行
-```sh
-$ pip install -r requriements.txt
-
-# 爬取
-$ python3 ./crawler.py
-
-# 作图
-$ python3 ./analyze.py
+### 创建虚拟环境并激活
+```shell
+python -m venv venv && source venv/bin/activate
+```
+### 安装依赖
+```shell
+pip install -r requriements.txt
+```
+### 爬取
+```shell
+python crawler.py
+```
+### 作图并生成html
+```shell
+python analyze.py
 ```
 
 ## 相关仓库
@@ -41,21 +48,14 @@ $ python3 ./analyze.py
 
 
 ## 相关链接
-
 - [财富中文网](https://www.fortunechina.com/fortune500/c/2021-08/02/content_394571.htm)
 
-
-
 ## 维护者
-
-[@weiensong](https://github.com/weiensong)
-
+[@touero](https://github.com/touero)
 
 
 ## 如何贡献
-
 非常欢迎你的加入！[提一个 Issue](https://github.com/weiensong/Fortune500/issues) 或者提交一个 Pull Request。
-
 
 标准 Python 遵循 [Python PEP-8](https://peps.python.org/pep-0008/) 行为规范。
 
